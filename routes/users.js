@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var { users } = require('../models/index');
+var userController = require('../controllers/user-controller');
 
 const multer = require('multer') // v1.0.5
 const upload = multer({ // for parsing multipart/form-data
@@ -8,17 +9,7 @@ const upload = multer({ // for parsing multipart/form-data
 })
 
 /* GET users listing. */
-router.get('/', async function(req, res, next) {
-  try {
-    let data = await users.findAll();
-    res.send(data);
-  } catch (error) {
-    res.send("error"+ JSON.stringify(error));
-  }
-});
-
-router.post('/', upload.array('file'), async (req, res, next) => {
-  res.send(req.files);
-});
+router.get('/', userController.list);
+router.post('/', upload.array('file', 5), userController.store);
 
 module.exports = router;
