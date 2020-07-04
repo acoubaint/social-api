@@ -3,7 +3,9 @@ var router = express.Router();
 var { users } = require('../models/index');
 
 const multer = require('multer') // v1.0.5
-const upload = multer() // for parsing multipart/form-data
+const upload = multer({ // for parsing multipart/form-data
+  dest: 'uploads/'
+})
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
@@ -15,8 +17,8 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-router.post('/', upload.single('file'), async (req, res, next) => {
-  res.send(req.body);
+router.post('/', upload.array('file'), async (req, res, next) => {
+  res.send(req.files);
 });
 
 module.exports = router;
