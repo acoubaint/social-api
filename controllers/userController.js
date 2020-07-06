@@ -14,7 +14,6 @@ const userController = new class {
   }
 
   async store(req, res, next) {
-    // res.send({ body: req.body, file: req.files });
     const user = await users.create(req.body);
     res.send(user);
   }
